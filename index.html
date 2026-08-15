@@ -233,94 +233,13 @@
         transform: translate(-50%, -50%) scale(1.05);
     }
 
-    #dashCooldown {
-        position: fixed;
-        right: 16px;
-        bottom: max(18px, env(safe-area-inset-bottom));
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 7;
-        border: 1px solid rgba(255,255,255,.18);
-        background: radial-gradient(circle, rgba(255,0,255,.18), rgba(5,5,20,.72));
-        color: #fff;
-        box-shadow: 0 0 24px rgba(255,0,255,.12);
-        pointer-events: auto;
-    }
 
-    #dashCooldown.ready {
-        border-color: rgba(0,255,255,.7);
-        box-shadow: 0 0 28px rgba(0,255,255,.32);
-    }
 
-    #dashText {
-        font-size: 9px;
-        letter-spacing: 1px;
-        text-align: center;
-    }
 
-    #joystick {
-        display: none;
-        position: fixed;
-        left: 20px;
-        bottom: max(24px, env(safe-area-inset-bottom));
-        width: 140px;
-        height: 140px;
-        z-index: 7;
-        pointer-events: auto;
-        touch-action: none;
-    }
 
-    #joyBase {
-        position: absolute;
-        left: 10px;
-        top: 10px;
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 1px solid rgba(0,255,255,.42);
-        background: radial-gradient(circle, rgba(0,255,255,.16), rgba(0,255,255,.04) 50%, rgba(4,4,18,.4));
-        box-shadow:
-            0 0 26px rgba(0,255,255,.14),
-            inset 0 0 25px rgba(0,255,255,.08);
-        touch-action: none;
-    }
 
-    #joyBase::before {
-        content: "";
-        position: absolute;
-        inset: 16px;
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 50%;
-        pointer-events: none;
-    }
 
-    #joyKnob {
-        position: absolute;
-        left: 33px;
-        top: 33px;
-        width: 54px;
-        height: 54px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 35% 30%, #fff, #7dffff 25%, #00ffff 60%, rgba(0,255,255,.55));
-        border: 1px solid rgba(255,255,255,.75);
-        box-shadow: 0 0 18px rgba(0,255,255,.8), 0 0 35px rgba(0,255,255,.3);
-        pointer-events: none;
-    }
 
-    #joyLabel {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 8px;
-        letter-spacing: 2px;
-        color: rgba(255,255,255,.42);
-        pointer-events: none;
-    }
 
     #menu, #gameOver, #missionPanel, #leaderboardPanel {
         position: fixed;
@@ -571,15 +490,9 @@
     }
 
     @media (pointer: coarse) {
-        #joystick, #dashCooldown {
-            display: flex;
-        }
     }
 
     @media (min-width: 800px) {
-        #joystick, #dashCooldown {
-            display: none !important;
-        }
     }
 
     @media (max-width: 520px) {
@@ -1026,60 +939,13 @@
             letter-spacing: 2px;
         }
 
-        #joystick {
-            left: 10px;
-            bottom: max(10px, env(safe-area-inset-bottom));
-            width: 112px;
-            height: 112px;
-        }
 
-        #joyBase {
-            left: 4px;
-            top: 4px;
-            width: 104px;
-            height: 104px;
-            border-color: rgba(0,255,255,.27);
-            background: rgba(0,255,255,.035);
-            box-shadow: 0 0 15px rgba(0,255,255,.08);
-        }
 
-        #joyBase::before {
-            inset: 13px;
-            border-color: rgba(255,255,255,.06);
-        }
 
-        #joyKnob {
-            left: 30px;
-            top: 30px;
-            width: 46px;
-            height: 46px;
-            box-shadow: 0 0 13px rgba(0,255,255,.55);
-        }
 
-        #joyLabel {
-            font-size: 7px;
-            letter-spacing: 1.5px;
-            color: rgba(255,255,255,.34);
-        }
 
-        #dashCooldown {
-            right: 10px;
-            bottom: max(10px, env(safe-area-inset-bottom));
-            width: 58px;
-            height: 58px;
-            background: rgba(5,5,20,.18);
-            border-color: rgba(255,255,255,.16);
-            box-shadow: 0 0 15px rgba(255,0,255,.08);
-            backdrop-filter: blur(2px);
-        }
 
-        #dashText {
-            font-size: 7px;
-        }
 
-        #dashTimer {
-            font-size: 8px;
-        }
 
         /* Keep the actual game canvas completely unobstructed. */
         #game {
@@ -1291,11 +1157,51 @@
         .homeStats { gap: 5px; }
     }
 
+
+    /* ---------- Direct Finger Movement ---------- */
+    #game {
+        touch-action: none;
+        cursor: crosshair;
+    }
+
+    @media (max-width: 820px) and (pointer: coarse) {
+        #game {
+            cursor: none;
+        }
+
+        /* Subtle center hint, visible only at the very start of a run. */
+        #touchHint {
+            display: block;
+        }
+    }
+
+    #touchHint {
+        display: none;
+        position: fixed;
+        left: 50%;
+        bottom: 12%;
+        transform: translate(-50%, 0);
+        z-index: 6;
+        pointer-events: none;
+        color: rgba(255,255,255,.30);
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-shadow: 0 0 10px rgba(0,255,255,.25);
+        opacity: 0;
+        transition: opacity .2s;
+    }
+
+    #touchHint.show {
+        opacity: 1;
+    }
+
 </style>
 </head>
 <body>
 
 <canvas id="game"></canvas>
+<div id="touchHint">DRAG ANYWHERE TO MOVE</div>
 
 <div id="ui">
     <div class="topbar">
@@ -1392,7 +1298,7 @@
 
             <div class="heroFooter">
                 PC: WASD / ARROWS • SPACE = DASH<br>
-                MOBILE: DRAG JOYSTICK • TAP DASH
+                MOBILE: DRAG ANYWHERE TO MOVE • DOUBLE-TAP TO DASH
             </div>
         </section>
 
@@ -1529,16 +1435,6 @@
     </div>
 </div>
 
-<div id="joystick" aria-label="Virtual joystick">
-    <div id="joyBase">
-        <div id="joyKnob"></div>
-        <div id="joyLabel">MOVE</div>
-    </div>
-</div>
-
-<button id="dashCooldown" aria-label="Dash">
-    <div id="dashText">DASH<br><span id="dashTimer">READY</span></div>
-</button>
 
 <script>
 "use strict";
@@ -1596,12 +1492,7 @@ const xpBarWrap = document.getElementById("xpBarWrap");
 const xpBar = document.getElementById("xpBar");
 const xpLabel = document.getElementById("xpLabel");
 
-const joystick = document.getElementById("joystick");
-const joyBase = document.getElementById("joyBase");
-const joyKnob = document.getElementById("joyKnob");
 
-const dashCooldown = document.getElementById("dashCooldown");
-const dashTimer = document.getElementById("dashTimer");
 
 const playerImage = new Image();
 playerImage.src = "player.png";
@@ -2059,88 +1950,150 @@ addEventListener("keyup", e => {
     }
 });
 
-/* ---------- Virtual Joystick ---------- */
+/* ---------- Direct Touch Movement ---------- */
 
-const joystickState = {
+
+/* ---------- Direct Finger Movement ---------- */
+
+const touchState = {
     active: false,
     pointerId: null,
-    x: 0,
-    y: 0,
-    maxDistance: 34
+    lastX: 0,
+    lastY: 0,
+    moved: false,
+    startedAt: 0
 };
 
-function resetJoystick() {
-    joystickState.active = false;
-    joystickState.pointerId = null;
-    joystickState.x = 0;
-    joystickState.y = 0;
+let touchHintTimer = null;
 
-    joyKnob.style.transform = "translate(0, 0)";
+function showTouchHint() {
+    const hint = document.getElementById("touchHint");
+    if (!hint) return;
+
+    hint.classList.add("show");
+    clearTimeout(touchHintTimer);
+
+    touchHintTimer = setTimeout(() => {
+        hint.classList.remove("show");
+    }, 1500);
 }
 
-function updateJoystick(e) {
-    const rect = joyBase.getBoundingClientRect();
+function resetTouchState() {
+    touchState.active = false;
+    touchState.pointerId = null;
+    touchState.lastX = 0;
+    touchState.lastY = 0;
+    touchState.moved = false;
+}
 
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+canvas.addEventListener("pointerdown", e => {
+    if (!game.running) return;
 
-    let dx = e.clientX - centerX;
-    let dy = e.clientY - centerY;
+    /* Only use touch/pen for direct finger movement.
+       Mouse remains a normal desktop input device. */
+    if (e.pointerType === "touch" || e.pointerType === "pen") {
+        e.preventDefault();
 
-    const length = Math.hypot(dx, dy);
+        touchState.active = true;
+        touchState.pointerId = e.pointerId;
+        touchState.lastX = e.clientX;
+        touchState.lastY = e.clientY;
+        touchState.moved = false;
+        touchState.startedAt = performance.now();
 
-    if (length > joystickState.maxDistance) {
-        dx = dx / length * joystickState.maxDistance;
-        dy = dy / length * joystickState.maxDistance;
+        try {
+            canvas.setPointerCapture(e.pointerId);
+        } catch (_) {}
+
+        showTouchHint();
+    }
+});
+
+canvas.addEventListener("pointermove", e => {
+    if (!touchState.active) return;
+    if (e.pointerId !== touchState.pointerId) return;
+
+    e.preventDefault();
+
+    const dx = e.clientX - touchState.lastX;
+    const dy = e.clientY - touchState.lastY;
+
+    if (Math.abs(dx) + Math.abs(dy) > 1) {
+        touchState.moved = true;
+
+        /*
+         * Direct finger movement:
+         * move the player by exactly the distance the finger moved.
+         * This gives the user a one-to-one "grab and move" feel.
+         */
+        player.x += dx;
+        player.y += dy;
+
+        player.vx = dx;
+        player.vy = dy;
+
+        player.x = clamp(
+            player.x,
+            player.radius,
+            W - player.radius
+        );
+
+        player.y = clamp(
+            player.y,
+            player.radius,
+            H - player.radius
+        );
+
+        /* A short touch trail makes finger movement feel responsive. */
+        if (Math.abs(dx) + Math.abs(dy) > 3) {
+            particles.push({
+                x: player.x,
+                y: player.y,
+                vx: -dx * .18,
+                vy: -dy * .18,
+                life: .35,
+                size: rand(1.5, 3.5),
+                color: characterData[selectedCharacter].color
+            });
+        }
     }
 
-    joystickState.x = dx / joystickState.maxDistance;
-    joystickState.y = dy / joystickState.maxDistance;
+    touchState.lastX = e.clientX;
+    touchState.lastY = e.clientY;
+});
 
-    joyKnob.style.transform =
-        `translate(${dx}px, ${dy}px)`;
+function finishTouch(e) {
+    if (touchState.pointerId !== null &&
+        e.pointerId !== undefined &&
+        e.pointerId !== touchState.pointerId) {
+        return;
+    }
+
+    resetTouchState();
 }
 
-joyBase.addEventListener("pointerdown", e => {
-    e.preventDefault();
+canvas.addEventListener("pointerup", finishTouch);
+canvas.addEventListener("pointercancel", finishTouch);
+canvas.addEventListener("lostpointercapture", finishTouch);
 
-    joystickState.active = true;
-    joystickState.pointerId = e.pointerId;
+/* Mobile dash: quick double-tap anywhere on the game area. */
+let lastTapTime = 0;
 
-    try {
-        joyBase.setPointerCapture(e.pointerId);
-    } catch (_) {}
+canvas.addEventListener("pointerdown", e => {
+    if (!game.running) return;
+    if (e.pointerType !== "touch") return;
 
-    updateJoystick(e);
+    const now = performance.now();
+
+    if (
+        now - lastTapTime < 280 &&
+        !touchState.moved
+    ) {
+        dash();
+    }
+
+    lastTapTime = now;
 });
-
-joyBase.addEventListener("pointermove", e => {
-    if (!joystickState.active) return;
-    if (e.pointerId !== joystickState.pointerId) return;
-
-    e.preventDefault();
-    updateJoystick(e);
-});
-
-["pointerup", "pointercancel", "lostpointercapture"].forEach(type => {
-    joyBase.addEventListener(type, e => {
-        if (
-            joystickState.pointerId !== null &&
-            e.pointerId !== undefined &&
-            e.pointerId !== joystickState.pointerId
-        ) return;
-
-        resetJoystick();
-    });
-});
-
-document.querySelectorAll(".characterCard").forEach(card => {
-    card.addEventListener("click", () => {
-        selectCharacter(card.dataset.character);
-    });
-});
-
-selectCharacter(selectedCharacter);
 
 /* ---------- Game State ---------- */
 
@@ -2371,6 +2324,11 @@ function updatePlayer(dt) {
     player.x = clamp(player.x, player.radius, W - player.radius);
     player.y = clamp(player.y, player.radius, H - player.radius);
 
+    if (!touchState.active && player.dashTime <= 0) {
+        player.vx *= .88;
+        player.vy *= .88;
+    }
+
     player.invincible -= dt;
     player.shield -= dt;
     player.boost -= dt;
@@ -2402,21 +2360,6 @@ function updatePlayer(dt) {
     }
 }
 
-function updateDashUI() {
-    if (game.dashCooldown <= 0) {
-        dashCooldown.classList.add("ready");
-        dashTimer.textContent = "READY";
-    } else {
-        dashCooldown.classList.remove("ready");
-        dashTimer.textContent =
-            game.dashCooldown.toFixed(1) + "s";
-    }
-}
-
-dashCooldown.addEventListener("pointerdown", e => {
-    e.preventDefault();
-    dash();
-});
 
 /* ---------- Enemies ---------- */
 
@@ -3663,7 +3606,6 @@ function updateUI() {
         "x" + game.combo.toFixed(1);
 
     updateXPUI();
-    updateDashUI();
 }
 
 function triggerFlash(color, strength = .18) {
@@ -3676,7 +3618,7 @@ function triggerFlash(color, strength = .18) {
 function goHome() {
     game.running = false;
 
-    resetJoystick();
+    resetTouchState();
 
     boss = null;
     enemies = [];
@@ -3737,7 +3679,7 @@ function startGame() {
     boss = null;
 
     resetPlayer();
-    resetJoystick();
+    resetTouchState();
 
     menu.style.display = "none";
     gameOverScreen.style.display = "none";
@@ -3746,6 +3688,7 @@ function startGame() {
     bossBar.style.display = "none";
 
     showMessage("SURVIVE", "#00ffff", 800);
+    showTouchHint();
 
     sound(300, .1);
     setTimeout(() => sound(600, .12), 100);
