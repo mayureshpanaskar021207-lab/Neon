@@ -225,6 +225,163 @@
         font-size: 24px;
     }
 
+
+    .tournament-actions {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+        text-align: left;
+    }
+
+    .tournament-actions .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .tournament-actions label {
+        display: block;
+        color: #9696c4;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+
+    .tournament-actions input,
+    .tournament-actions select {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid rgba(0, 255, 255, .28);
+        border-radius: 9px;
+        padding: 11px 10px;
+        color: white;
+        background: #10102a;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .tournament-actions button,
+    #lobbyPanel button {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .secondary-btn {
+        color: #e8e8ff;
+        background: rgba(30, 30, 70, .95);
+        border: 1px solid rgba(0, 255, 255, .25);
+        box-shadow: none;
+    }
+
+    .divider-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #66668c;
+        font-size: 10px;
+        letter-spacing: 2px;
+        margin: 2px 0;
+    }
+
+    .divider-label::before,
+    .divider-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(150, 150, 196, .2);
+    }
+
+    #lobby {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        overflow-y: auto;
+        background: rgba(2, 2, 12, .88);
+        backdrop-filter: blur(12px);
+        pointer-events: auto;
+    }
+
+    #lobbyPanel {
+        width: min(94%, 520px);
+        max-height: 92vh;
+        overflow-y: auto;
+        padding: 28px 24px;
+        text-align: center;
+        border: 1px solid rgba(0, 255, 255, .3);
+        border-radius: 20px;
+        background: linear-gradient(145deg, rgba(20, 20, 55, .98), rgba(5, 5, 20, .99));
+        box-shadow: 0 0 40px rgba(0, 255, 255, .1);
+    }
+
+    #lobby h2 {
+        font-size: 30px;
+        overflow-wrap: anywhere;
+    }
+
+    #roomCodeDisplay {
+        font-size: 34px;
+        font-weight: bold;
+        letter-spacing: 7px;
+        color: #00ffff;
+        text-shadow: 0 0 18px cyan;
+        margin: 10px 0 16px;
+    }
+
+    #lobbyStatus {
+        color: #b7b7dc;
+        line-height: 1.5;
+        margin: 12px 0;
+        overflow-wrap: anywhere;
+    }
+
+    #lobbyPlayers {
+        text-align: left;
+        margin: 16px 0;
+        border: 1px solid rgba(0, 255, 255, .14);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .lobby-player {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 11px 13px;
+        color: #eee;
+        border-bottom: 1px solid rgba(150, 150, 196, .12);
+        font-size: 13px;
+    }
+
+    .lobby-player:last-child { border-bottom: 0; }
+    .lobby-player small { color: #8585b0; }
+
+    #lobbyError {
+        min-height: 18px;
+        color: #ff7777;
+        font-size: 12px;
+        margin: 8px 0;
+        overflow-wrap: anywhere;
+    }
+
+    .tournament-note {
+        color: #7777a5;
+        font-size: 10px;
+        line-height: 1.5;
+        margin-top: 12px;
+    }
+
+    @media (max-width: 420px) {
+        .panel { padding: 28px 20px; }
+        .tournament-actions .field-row { grid-template-columns: 1fr; }
+        #lobbyPanel { padding: 24px 16px; }
+    }
+
     @media (pointer: coarse) {
         #mobileControls {
             display: flex;
@@ -268,14 +425,65 @@
             Don't get caught.
         </p>
 
-        <button id="startBtn">START GAME</button>
+        <button id="startBtn">START SOLO GAME</button>
+
+        <div class="divider-label" style="margin-top:22px">FRIENDS TOURNAMENT</div>
+        <div class="tournament-actions">
+            <div>
+                <label for="playerNameInput">Your player name</label>
+                <input id="playerNameInput" maxlength="30" placeholder="Enter your name" autocomplete="nickname">
+            </div>
+            <div class="field-row">
+                <div>
+                    <label for="playerCountInput">Number of players</label>
+                    <select id="playerCountInput">
+                        <option value="2">2 players</option>
+                        <option value="3">3 players</option>
+                        <option value="4" selected>4 players</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="roundCountInput">Number of rounds</label>
+                    <select id="roundCountInput">
+                        <option value="1">1 round</option>
+                        <option value="3" selected>3 rounds</option>
+                        <option value="5">5 rounds</option>
+                        <option value="10">10 rounds</option>
+                        <option value="20">20 rounds</option>
+                    </select>
+                </div>
+            </div>
+            <button id="createRoomBtn" type="button">CREATE ROOM</button>
+            <div class="divider-label">OR JOIN A ROOM</div>
+            <input id="roomCodeInput" maxlength="6" placeholder="6-character room code" autocomplete="off" style="text-transform:uppercase;letter-spacing:4px;text-align:center">
+            <button id="joinRoomBtn" class="secondary-btn" type="button">JOIN ROOM</button>
+            <div id="tournamentSetupStatus" role="status" style="color:#ff9999;font-size:12px;min-height:18px;text-align:center"></div>
+        </div>
 
         <div class="controls">
+
             <strong>PC:</strong> WASD / Arrow Keys to move<br>
             <strong>Mobile:</strong> Use the controls below<br>
             Collect <strong>cyan orbs</strong> for points<br>
             Collect <strong>gold orbs</strong> for power-ups
         </div>
+    </div>
+</div>
+
+
+<div id="lobby" aria-live="polite">
+    <div id="lobbyPanel">
+        <div class="label">NEON SURVIVOR TOURNAMENT</div>
+        <h2 id="lobbyTitle">ROOM LOBBY</h2>
+        <div id="roomCodeDisplay">------</div>
+        <button id="copyRoomCodeBtn" class="secondary-btn" type="button">COPY ROOM CODE</button>
+        <div id="lobbyStatus">Connecting to room...</div>
+        <div id="lobbyPlayers"></div>
+        <div id="lobbyError" role="status"></div>
+        <button id="hostStartBtn" type="button" style="display:none">START TOURNAMENT</button>
+        <button id="playRoundBtn" type="button" style="display:none">PLAY ROUND</button>
+        <button id="leaveRoomBtn" class="secondary-btn" type="button">BACK TO MAIN MENU</button>
+        <div class="tournament-note">Each player plays their own attempt on their device. Scores are added across rounds. Keep your private player access token secret.</div>
     </div>
 </div>
 
@@ -304,6 +512,7 @@
     <button class="mobileBtn" data-key="right">▶</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
 
@@ -327,6 +536,49 @@ const newRecordEl = document.getElementById("newRecord");
 
 const startBtn = document.getElementById("startBtn");
 const restartBtn = document.getElementById("restartBtn");
+
+const playerNameInput = document.getElementById("playerNameInput");
+const playerCountInput = document.getElementById("playerCountInput");
+const roundCountInput = document.getElementById("roundCountInput");
+const roomCodeInput = document.getElementById("roomCodeInput");
+const createRoomBtn = document.getElementById("createRoomBtn");
+const joinRoomBtn = document.getElementById("joinRoomBtn");
+const setupStatusEl = document.getElementById("tournamentSetupStatus");
+const lobby = document.getElementById("lobby");
+const lobbyTitle = document.getElementById("lobbyTitle");
+const roomCodeDisplay = document.getElementById("roomCodeDisplay");
+const lobbyStatus = document.getElementById("lobbyStatus");
+const lobbyPlayers = document.getElementById("lobbyPlayers");
+const lobbyError = document.getElementById("lobbyError");
+const hostStartBtn = document.getElementById("hostStartBtn");
+const playRoundBtn = document.getElementById("playRoundBtn");
+const leaveRoomBtn = document.getElementById("leaveRoomBtn");
+const copyRoomCodeBtn = document.getElementById("copyRoomCodeBtn");
+
+/*
+ * Supabase browser configuration:
+ * Replace both placeholders with your own project's Project URL and
+ * publishable key. Never put a service_role/secret key in this file.
+ */
+const SUPABASE_URL = "https://ffkbojagcjsqrvzviego.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_PM1tFMvRDfNSO2BysKGGTw_HVZRet1b";
+const supabaseClient =
+    window.supabase &&
+    !SUPABASE_URL.startsWith("YOUR_") &&
+    !SUPABASE_PUBLISHABLE_KEY.startsWith("YOUR_")
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+        : null;
+
+let tournamentSession = null;
+let roomPollTimer = null;
+let roomState = null;
+let tournamentSubmitting = false;
+
+try {
+    tournamentSession = JSON.parse(localStorage.getItem("neonTournamentSession") || "null");
+} catch (_) {
+    tournamentSession = null;
+}
 
 let W = innerWidth;
 let H = innerHeight;
@@ -419,7 +671,16 @@ const keyMap = {
     D: "right"
 };
 
+
 addEventListener("keydown", e => {
+    // Let users type normally inside form fields
+    if (
+        e.target.matches("input, textarea, select") ||
+        e.target.isContentEditable
+    ) {
+        return;
+    }
+
     const key = keyMap[e.key];
 
     if (key) {
@@ -431,6 +692,24 @@ addEventListener("keydown", e => {
         startGame();
     }
 });
+
+addEventListener("keyup", e => {
+    // Do not intercept typing in form fields
+    if (
+        e.target.matches("input, textarea, select") ||
+        e.target.isContentEditable
+    ) {
+        return;
+    }
+
+    const key = keyMap[e.key];
+
+    if (key) {
+        keys[key] = false;
+        e.preventDefault();
+    }
+});
+
 
 addEventListener("keyup", e => {
     const key = keyMap[e.key];
@@ -1246,6 +1525,15 @@ function draw() {
 /* ---------- Start ---------- */
 
 function startGame() {
+    if (tournamentSession && (!roomState || roomState.room.status !== "active")) {
+        showLobbyError("The tournament is not active yet.");
+        return;
+    }
+    if (tournamentSession && tournamentSession.submittedRound >= roomState.room.current_round) {
+        showLobbyError("Your score for this round is already submitted. Wait for the next round.");
+        return;
+    }
+
     initAudio();
 
     game.running = true;
@@ -1295,6 +1583,17 @@ function endGame() {
     finalScoreEl.textContent =
         finalScore.toLocaleString();
 
+    if (tournamentSession) {
+        newRecordEl.textContent = "Submitting tournament score...";
+        restartBtn.textContent = "RETURN TO LOBBY";
+        submitTournamentScore(finalScore).catch(error => {
+            newRecordEl.textContent = "Score submission failed. Return to lobby and retry if needed.";
+            showLobbyError(error.message || "Could not submit score.");
+        });
+    } else {
+        restartBtn.textContent = "PLAY AGAIN";
+    }
+
     if (finalScore > game.highScore) {
         game.highScore = finalScore;
 
@@ -1317,7 +1616,310 @@ function endGame() {
 }
 
 startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
+
+restartBtn.addEventListener("click", () => {
+    if (tournamentSession) {
+        gameOverScreen.style.display = "none";
+        showLobby();
+        refreshRoomState();
+    } else {
+        startGame();
+    }
+});
+
+function setSetupStatus(message, isError = true) {
+    setupStatusEl.textContent = message || "";
+    setupStatusEl.style.color = isError ? "#ff9999" : "#8dffca";
+}
+
+function showLobbyError(message) {
+    lobbyError.textContent = message || "";
+}
+
+function saveTournamentSession(session) {
+    tournamentSession = session;
+    localStorage.setItem("neonTournamentSession", JSON.stringify(session));
+}
+
+function clearRoomPolling() {
+    if (roomPollTimer) {
+        clearInterval(roomPollTimer);
+        roomPollTimer = null;
+    }
+}
+
+function showLobby() {
+    menu.style.display = "none";
+    gameOverScreen.style.display = "none";
+    lobby.style.display = "flex";
+    roomCodeDisplay.textContent = tournamentSession ? tournamentSession.roomCode : "------";
+    lobbyTitle.textContent = "ROOM " + (tournamentSession ? tournamentSession.roomCode : "");
+    showLobbyError("");
+    hostStartBtn.style.display = "none";
+    playRoundBtn.style.display = "none";
+    if (roomPollTimer) clearRoomPolling();
+    refreshRoomState();
+    roomPollTimer = setInterval(refreshRoomState, 3000);
+}
+
+function showMainMenu() {
+    clearRoomPolling();
+    lobby.style.display = "none";
+    gameOverScreen.style.display = "none";
+    menu.style.display = "flex";
+    game.running = false;
+}
+
+function requireSupabase() {
+    if (!supabaseClient) {
+        throw new Error("Add your Supabase Project URL and publishable key in index.html first.");
+    }
+}
+
+function validatePlayerName() {
+    const name = playerNameInput.value.trim();
+    if (!name || name.length > 30) {
+        throw new Error("Enter a player name between 1 and 30 characters.");
+    }
+    return name;
+}
+
+async function createTournamentRoom() {
+    try {
+        requireSupabase();
+        const displayName = validatePlayerName();
+        createRoomBtn.disabled = true;
+        setSetupStatus("Creating room...", false);
+
+        const { data, error } = await supabaseClient.rpc("create_room", {
+            p_display_name: displayName,
+            p_max_players: Number(playerCountInput.value),
+            p_total_rounds: Number(roundCountInput.value)
+        });
+        if (error) throw error;
+        if (!data || !data.success) throw new Error("Room creation did not complete.");
+
+        saveTournamentSession({
+            roomId: data.room_id,
+            roomCode: data.room_code,
+            memberId: data.member_id,
+            accessToken: data.access_token,
+            seatNumber: data.seat_number,
+            isHost: data.is_host,
+            displayName,
+            submittedRound: 0
+        });
+        setSetupStatus("Room created!", false);
+        showLobby();
+    } catch (error) {
+        setSetupStatus(error.message || "Could not create room.");
+    } finally {
+        createRoomBtn.disabled = false;
+    }
+}
+
+async function joinTournamentRoom() {
+    try {
+        requireSupabase();
+        const displayName = validatePlayerName();
+        const roomCode = roomCodeInput.value.trim().toUpperCase();
+        if (!/^[A-Z0-9]{6}$/.test(roomCode)) {
+            throw new Error("Enter the six-character room code.");
+        }
+
+        joinRoomBtn.disabled = true;
+        setSetupStatus("Joining room...", false);
+
+        const { data, error } = await supabaseClient.rpc("join_room", {
+            p_room_code: roomCode,
+            p_display_name: displayName
+        });
+        if (error) throw error;
+        if (!data || !data.success) throw new Error("Could not join room.");
+
+        saveTournamentSession({
+            roomId: data.room_id,
+            roomCode: data.room_code,
+            memberId: data.member_id,
+            accessToken: data.access_token,
+            seatNumber: data.seat_number,
+            isHost: data.is_host,
+            displayName,
+            submittedRound: 0
+        });
+        setSetupStatus("Joined room!", false);
+        showLobby();
+    } catch (error) {
+        setSetupStatus(error.message || "Could not join room.");
+    } finally {
+        joinRoomBtn.disabled = false;
+    }
+}
+
+function renderRoomState(state) {
+    roomState = state;
+    const room = state.room;
+    const players = state.players || [];
+    const submitted = tournamentSession ? tournamentSession.submittedRound : 0;
+
+    lobbyTitle.textContent = room.status === "completed" ? "TOURNAMENT RESULTS" : "ROOM " + room.room_code;
+    roomCodeDisplay.textContent = room.room_code;
+    lobbyPlayers.innerHTML = players.map(player => {
+        const isYou = tournamentSession && player.member_id === tournamentSession.memberId;
+        const roundsDone = (player.round_scores || []).length;
+        return `<div class="lobby-player">
+            <span>${escapeHtml(player.seat_number + ". " + player.display_name)}${player.is_host ? " ★" : ""}${isYou ? " (YOU)" : ""}<br><small>${roundsDone}/${room.total_rounds} rounds submitted</small></span>
+            <strong>${Number(player.total_score || 0).toLocaleString()}</strong>
+        </div>`;
+    }).join("");
+
+    if (room.status === "waiting") {
+        lobbyStatus.textContent = `Waiting for players: ${players.length}/${room.max_players}. ${room.total_rounds} round(s) planned. Share the room code with friends.`;
+        hostStartBtn.style.display = tournamentSession && tournamentSession.isHost ? "block" : "none";
+        hostStartBtn.disabled = players.length < 2;
+        hostStartBtn.textContent = players.length < 2 ? "WAITING FOR ANOTHER PLAYER" : "START TOURNAMENT";
+        playRoundBtn.style.display = "none";
+    } else if (room.status === "active") {
+        lobbyStatus.textContent = `Round ${room.current_round} of ${room.total_rounds}. Each player plays on their own device. Your score is submitted when your run ends.`;
+        hostStartBtn.style.display = "none";
+        playRoundBtn.style.display = "block";
+        const alreadySubmitted = submitted >= room.current_round;
+        playRoundBtn.disabled = alreadySubmitted;
+        playRoundBtn.textContent = alreadySubmitted
+            ? `WAITING FOR ROUND ${room.current_round} TO FINISH`
+            : `PLAY ROUND ${room.current_round}`;
+    } else if (room.status === "completed") {
+        const ranking = [...players].sort((a, b) => Number(b.total_score) - Number(a.total_score));
+        const winner = ranking[0];
+        lobbyStatus.textContent = winner
+            ? `Winner: ${winner.display_name} with ${Number(winner.total_score).toLocaleString()} total points!`
+            : "Tournament completed.";
+        hostStartBtn.style.display = "none";
+        playRoundBtn.style.display = "none";
+    } else {
+        lobbyStatus.textContent = "This tournament is no longer active.";
+        hostStartBtn.style.display = "none";
+        playRoundBtn.style.display = "none";
+    }
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
+}
+
+async function refreshRoomState() {
+    if (!tournamentSession || !supabaseClient) return;
+    try {
+        const { data, error } = await supabaseClient.rpc("get_room_state", {
+            p_room_code: tournamentSession.roomCode
+        });
+        if (error) throw error;
+        if (data) renderRoomState(data);
+    } catch (error) {
+        showLobbyError(error.message || "Unable to refresh room.");
+    }
+}
+
+async function startTournament() {
+    try {
+        requireSupabase();
+        if (!tournamentSession) throw new Error("No room session found.");
+        hostStartBtn.disabled = true;
+        const { data, error } = await supabaseClient.rpc("start_room", {
+            p_room_id: tournamentSession.roomId,
+            p_member_id: tournamentSession.memberId,
+            p_access_token: tournamentSession.accessToken
+        });
+        if (error) throw error;
+        if (!data || !data.success) throw new Error("Could not start tournament.");
+        await refreshRoomState();
+    } catch (error) {
+        showLobbyError(error.message || "Could not start tournament.");
+    } finally {
+        hostStartBtn.disabled = false;
+    }
+}
+
+async function submitTournamentScore(finalScore) {
+    if (!tournamentSession || tournamentSubmitting) return;
+    requireSupabase();
+    if (!roomState || roomState.room.status !== "active") {
+        throw new Error("The tournament is not active.");
+    }
+    const roundNumber = roomState.room.current_round;
+    if (tournamentSession.submittedRound >= roundNumber) {
+        throw new Error("You have already submitted this round.");
+    }
+
+    tournamentSubmitting = true;
+    try {
+        const { data, error } = await supabaseClient.rpc("submit_round_score", {
+            p_room_id: tournamentSession.roomId,
+            p_member_id: tournamentSession.memberId,
+            p_access_token: tournamentSession.accessToken,
+            p_round_number: roundNumber,
+            p_score: finalScore
+        });
+        if (error) throw error;
+
+        tournamentSession.submittedRound = roundNumber;
+        localStorage.setItem("neonTournamentSession", JSON.stringify(tournamentSession));
+        newRecordEl.textContent = `Round ${roundNumber} score submitted: ${finalScore.toLocaleString()}`;
+        if (data && data.status === "completed") {
+            newRecordEl.textContent = "Final round submitted! Check the tournament results.";
+        } else if (data && data.round_complete) {
+            newRecordEl.textContent = "Round complete! The next round is ready.";
+        } else {
+            newRecordEl.textContent = "Score submitted. Waiting for other players...";
+        }
+        await refreshRoomState();
+    } finally {
+        tournamentSubmitting = false;
+    }
+}
+
+createRoomBtn.addEventListener("click", createTournamentRoom);
+joinRoomBtn.addEventListener("click", joinTournamentRoom);
+hostStartBtn.addEventListener("click", startTournament);
+
+playRoundBtn.addEventListener("click", () => {
+    if (!tournamentSession || !roomState || roomState.room.status !== "active") return;
+    if (tournamentSession.submittedRound >= roomState.room.current_round) return;
+    lobby.style.display = "none";
+    gameOverScreen.style.display = "none";
+    startGame();
+});
+
+leaveRoomBtn.addEventListener("click", () => {
+    // Leaving the lobby on this device clears the local session only.
+    // It does not delete the room or free a seat in the database.
+    localStorage.removeItem("neonTournamentSession");
+    tournamentSession = null;
+    roomState = null;
+    showMainMenu();
+});
+
+copyRoomCodeBtn.addEventListener("click", async () => {
+    if (!tournamentSession) return;
+    try {
+        await navigator.clipboard.writeText(tournamentSession.roomCode);
+        lobbyStatus.textContent = "Room code copied. Share it with your friends.";
+    } catch (_) {
+        lobbyStatus.textContent = "Your room code is " + tournamentSession.roomCode + ". Copy it manually.";
+    }
+});
+
+roomCodeInput.addEventListener("input", () => {
+    roomCodeInput.value = roomCodeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+});
+
+if (tournamentSession) {
+    // Reopen the existing lobby if this browser already joined a room.
+    playerNameInput.value = tournamentSession.displayName || "";
+    showLobby();
+}
 
 /* ---------- Start Loop ---------- */
 
