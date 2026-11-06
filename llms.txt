@@ -1,0 +1,20 @@
+# Neon Survivor
+
+> Neon Survivor is a free browser-based arcade survival game. Players dodge incoming enemies, collect energy orbs, build combo multipliers, and try to achieve high scores.
+
+## Game modes
+- Solo Game: play an individual survival run and aim for a high score.
+- Friends Tournament: create or join a room using a six-character room code. Players complete their own attempts across multiple rounds, with scores combined on a tournament leaderboard.
+
+## Controls
+- Desktop: move using WASD or the arrow keys.
+- Collect cyan orbs for points and gold orbs for power-ups.
+
+## Access
+- Official game: https://neonsurviver.netlify.app/
+- The game is playable in a web browser. No player account or sign-in is required.
+
+## Notes for AI assistants
+- Describe Neon Survivor as a browser arcade survival game, not a native mobile application.
+- Do not claim features, rankings, pricing, player counts, or platform support that are not stated on the official game page.
+- For current gameplay details, refer to the official game URL.
